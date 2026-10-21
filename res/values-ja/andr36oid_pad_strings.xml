@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_actions">操作</string>
+    <string name="pad_hint_back">戻る</string>
+    <string name="pad_hint_browse">閲覧</string>
+    <string name="pad_hint_close">閉じる</string>
+    <string name="pad_hint_done">完了</string>
+    <string name="pad_hint_mark">チェック</string>
+    <string name="pad_hint_menu">メニュー</string>
+    <string name="pad_hint_move">移動</string>
+    <string name="pad_hint_open">開く</string>
+    <string name="pad_hint_play">再生</string>
+    <string name="pad_hint_play_pause">再生/一時停止</string>
+    <string name="pad_hint_seek">シーク</string>
+    <string name="pad_hint_select">選択</string>
+    <string name="pad_hint_tabs">タブ</string>
+    <string name="pad_hint_zoom">ズーム</string>
+    <string name="pad_key_dpad">十字キー</string>
+</resources>
