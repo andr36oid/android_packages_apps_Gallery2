@@ -111,6 +111,11 @@ abstract public class ActivityState {
         return null;
     }
 
+    /** andr36oid: true when the hints fade a while after the last button (full-screen media). */
+    protected boolean fadesPadHints() {
+        return false;
+    }
+
     /** andr36oid: the hint bar's text on the left, such as "3 selected"; null for the default. */
     protected CharSequence getPadLeading() {
         return null;

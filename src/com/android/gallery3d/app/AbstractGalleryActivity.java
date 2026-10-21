@@ -429,7 +429,23 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
                 ? states.getTopState().getPadLeading() : null;
         if (leading == null) leading = getPadLeading();
         mHintBar.setLeading(leading);
+        // a full-screen photo: the hints show at a button press, then fade after a while
+        mHintBar.removeCallbacks(mFadeHints);
+        mHintBar.animate().cancel();
+        mHintBar.setAlpha(1f);
+        if (states.getStateCount() > 0 && states.getTopState().fadesPadHints()) {
+            mHintBar.postDelayed(mFadeHints, PAD_HINTS_FADE_MS);
+        }
     }
+
+    private static final long PAD_HINTS_FADE_MS = 3000;
+
+    private final Runnable mFadeHints = new Runnable() {
+        @Override
+        public void run() {
+            if (mHintBar != null) mHintBar.animate().alpha(0f).setDuration(400).start();
+        }
+    };
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {

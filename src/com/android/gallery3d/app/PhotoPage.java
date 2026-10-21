@@ -1840,6 +1840,11 @@ public abstract class PhotoPage extends ActivityState implements
     }
 
     @Override
+    protected boolean fadesPadHints() {
+        return true;
+    }
+
+    @Override
     protected CharSequence[] getPadHints() {
         final Context c = mActivity;
         final ArrayList<CharSequence> h = new ArrayList<>();
