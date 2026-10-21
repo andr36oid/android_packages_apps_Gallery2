@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Pasar</string>
     <string name="pad_hint_move">Mover</string>
     <string name="pad_key_dpad">Cruceta</string>
+    <string name="pad_hint_play_pause">Reproducir/pausa</string>
+    <string name="pad_hint_seek">Avanzar</string>
 </resources>

@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Navegar</string>
     <string name="pad_hint_move">Mover</string>
     <string name="pad_key_dpad">Direcional</string>
+    <string name="pad_hint_play_pause">Reproduzir/pausar</string>
+    <string name="pad_hint_seek">Avançar</string>
 </resources>

@@ -1842,7 +1842,8 @@ public abstract class PhotoPage extends ActivityState implements
             PadHints.add(h, c.getString(R.string.pad_key_dpad),
                     c.getString(R.string.pad_hint_move));
         } else {
-            PadHints.add(h, "\u25c0 \u25b6", c.getString(R.string.pad_hint_browse));
+            PadHints.add(h, c.getString(R.string.pad_key_left_right),
+                    c.getString(R.string.pad_hint_browse));
         }
         return h.toArray(new CharSequence[0]);
     }

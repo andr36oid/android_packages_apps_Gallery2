@@ -50,6 +50,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import org.andr36oid.hints.HintBar;
 import org.codeaurora.gallery.R;
 import com.android.gallery3d.common.ApiHelper;
 import com.android.gallery3d.common.Utils;
@@ -113,6 +114,10 @@ public class MovieActivity extends AbstractPermissionActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setContentView(R.layout.movie_view);
+        // andr36oid: the console's controller, see MoviePlayer.onKeyDown
+        HintBar.attach(this, "A", getString(R.string.pad_hint_play_pause),
+                getString(R.string.pad_key_left_right), getString(R.string.pad_hint_seek),
+                "B", getString(R.string.pad_hint_back));
         View rootView = findViewById(R.id.movie_view_root);
 
         setSystemUiVisibility(rootView);

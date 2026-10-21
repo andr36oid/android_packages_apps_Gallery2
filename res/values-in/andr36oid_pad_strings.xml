@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Jelajahi</string>
     <string name="pad_hint_move">Geser</string>
     <string name="pad_key_dpad">D-pad</string>
+    <string name="pad_hint_play_pause">Putar/jeda</string>
+    <string name="pad_hint_seek">Lompat</string>
 </resources>

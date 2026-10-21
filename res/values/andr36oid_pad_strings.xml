@@ -30,4 +30,10 @@
     <string name="pad_hint_move">Move</string>
     <!-- The name of the controller's direction pad, shown as a button in the hints -->
     <string name="pad_key_dpad">D-pad</string>
+    <!-- A in the video player: play or pause -->
+    <string name="pad_hint_play_pause">Play/pause</string>
+    <!-- Left and right in the video player: jump back or ahead 10 seconds -->
+    <string name="pad_hint_seek">Seek</string>
+    <!-- Left and right on the D-pad, shown as a button in the hints -->
+    <string name="pad_key_left_right" translatable="false">\u25c0 \u25b6</string>
 </resources>

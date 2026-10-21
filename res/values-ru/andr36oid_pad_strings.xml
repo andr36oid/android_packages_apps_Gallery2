@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Листать</string>
     <string name="pad_hint_move">Двигать</string>
     <string name="pad_key_dpad">Крестовина</string>
+    <string name="pad_hint_play_pause">Пуск/пауза</string>
+    <string name="pad_hint_seek">Перемотка</string>
 </resources>

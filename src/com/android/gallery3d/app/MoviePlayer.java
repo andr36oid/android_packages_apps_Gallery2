@@ -86,6 +86,8 @@ public class MoviePlayer implements
 
     // These are constants in KeyEvent, appearing on API level 11.
     private static final int KEYCODE_MEDIA_PLAY = 126;
+    // andr36oid: how far left and right on the D-pad seek
+    private static final int PAD_SEEK_MS = 10000;
     private static final int KEYCODE_MEDIA_PAUSE = 127;
 
     // Copied from MediaPlaybackService in the Music Player app.
@@ -848,6 +850,29 @@ public class MoviePlayer implements
     // Below are key events passed from MovieActivity.
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        // andr36oid: the console's controller. Left and right seek (held down too), A plays
+        // and pauses.
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+            final int duration = mVideoView.getDuration();
+            final int step = keyCode == KeyEvent.KEYCODE_DPAD_LEFT ? -PAD_SEEK_MS : PAD_SEEK_MS;
+            int to = mVideoView.getCurrentPosition() + step;
+            to = Math.max(0, duration > 0 ? Math.min(duration, to) : to);
+            mVideoView.seekTo(to);
+            mController.show();
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_BUTTON_A || keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                || keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (event.getRepeatCount() == 0) {
+                if (mVideoView.isPlaying() && mVideoView.canPause()) {
+                    pauseVideo();
+                } else {
+                    playVideo();
+                }
+            }
+            return true;
+        }
+
         // Some headsets will fire off 7-10 events on a single click
         if (event.getRepeatCount() > 0) {
             return isMediaKey(keyCode);
@@ -882,6 +907,11 @@ public class MoviePlayer implements
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                || keyCode == KeyEvent.KEYCODE_BUTTON_A || keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                || keyCode == KeyEvent.KEYCODE_ENTER) {
+            return true;
+        }
         return isMediaKey(keyCode);
     }
 

@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Blättern</string>
     <string name="pad_hint_move">Bewegen</string>
     <string name="pad_key_dpad">Steuerkreuz</string>
+    <string name="pad_hint_play_pause">Abspielen/Pause</string>
+    <string name="pad_hint_seek">Spulen</string>
 </resources>

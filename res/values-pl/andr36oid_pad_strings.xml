@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Przeglądaj</string>
     <string name="pad_hint_move">Przesuń</string>
     <string name="pad_key_dpad">Krzyżak</string>
+    <string name="pad_hint_play_pause">Odtwórz/pauza</string>
+    <string name="pad_hint_seek">Przewiń</string>
 </resources>

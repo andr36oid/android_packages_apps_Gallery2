@@ -14,4 +14,6 @@
     <string name="pad_hint_browse">Gezin</string>
     <string name="pad_hint_move">Kaydır</string>
     <string name="pad_key_dpad">Yön tuşu</string>
+    <string name="pad_hint_play_pause">Oynat/duraklat</string>
+    <string name="pad_hint_seek">Sar</string>
 </resources>
