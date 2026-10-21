@@ -1015,6 +1015,11 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
     }
 
     @Override
+    protected CharSequence getPadLeading() {
+        return PadHints.selected(mActivity, mSelectionManager);
+    }
+
+    @Override
     protected CharSequence[] getPadHints() {
         return PadHints.grid(mActivity, mSelectionManager.inSelectionMode());
     }

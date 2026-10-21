@@ -647,7 +647,8 @@ public abstract class PhotoPage extends ActivityState implements
 
     @Override
     public boolean canDisplayBottomControls() {
-        return mIsActive && !mPhotoView.canUndo();
+        // andr36oid: no bottom bar on the console, its actions are in the Y menu
+        return false;
     }
 
     @Override
@@ -945,6 +946,11 @@ public abstract class PhotoPage extends ActivityState implements
            }
         }
         MenuExecutor.updateMenuOperation(menu, supportedOperations);
+        // andr36oid: the editor is for pictures only, as on the bottom bar it replaces
+        if (mCurrentPhoto.getMediaType() != MediaObject.MEDIA_TYPE_IMAGE) {
+            final MenuItem edit = menu.findItem(R.id.action_edit);
+            if (edit != null) edit.setVisible(false);
+        }
     }
 
     private boolean canDoSlideShow() {
@@ -1258,6 +1264,12 @@ public abstract class PhotoPage extends ActivityState implements
             }
             case R.id.action_edit: {
                 launchPhotoEditor();
+                return true;
+            }
+            case R.id.action_share: {
+                // andr36oid: what the bottom bar's share did
+                mShareIntent = new Intent(Intent.ACTION_SEND);
+                onBottomControlClicked(R.id.photopage_bottom_control_share);
                 return true;
             }
             /*case R.id.action_simple_edit: {

@@ -111,6 +111,11 @@ abstract public class ActivityState {
         return null;
     }
 
+    /** andr36oid: the hint bar's text on the left, such as "3 selected"; null for the default. */
+    protected CharSequence getPadLeading() {
+        return null;
+    }
+
     /** andr36oid: the selection's actions while some are selected, for Y; null if none. */
     protected Menu getPadSelectionMenu() {
         return null;

@@ -180,6 +180,7 @@ public final class GalleryActivity extends AbstractGalleryActivity implements On
         params = (RelativeLayout.LayoutParams) mGLParentLayout.getLayoutParams();
 
         mBottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        mBottomNavigation.setVisibility(View.GONE);
         mBottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -206,10 +207,23 @@ public final class GalleryActivity extends AbstractGalleryActivity implements On
     private static final int[] PAD_TABS = {
             R.id.action_timeline, R.id.action_album, R.id.action_videos };
 
+    // the tabs are hidden on the console, this says when the page would have shown them
+    private boolean mPadTabsShown;
+
     @Override
     public boolean hasPadTabs() {
-        return mBottomNavigation != null && mBottomNavigation.getVisibility() == View.VISIBLE
+        return mBottomNavigation != null && mPadTabsShown
                 && getStateManager().getStateCount() == 1;
+    }
+
+    @Override
+    protected CharSequence getPadLeading() {
+        if (hasPadTabs()) {
+            final MenuItem tab = mBottomNavigation.getMenu().findItem(
+                    mBottomNavigation.getSelectedItemId());
+            if (tab != null) return tab.getTitle();
+        }
+        return super.getPadLeading();
     }
 
     @Override
@@ -226,11 +240,10 @@ public final class GalleryActivity extends AbstractGalleryActivity implements On
     }
 
     public void toggleNavBar(boolean show) {
-        if (show) {
-            mBottomNavigation.setVisibility(View.VISIBLE);
-        } else {
-            mBottomNavigation.setVisibility(View.GONE);
-        }
+        // andr36oid: never shown, L1 and R1 switch the tabs and the hint bar names them
+        mPadTabsShown = show;
+        mBottomNavigation.setVisibility(View.GONE);
+        updatePadHints();
     }
 
     public void showScreen(int position) {

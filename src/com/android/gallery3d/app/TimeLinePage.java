@@ -917,6 +917,11 @@ public class TimeLinePage extends ActivityState implements
     }
 
     @Override
+    protected CharSequence getPadLeading() {
+        return PadHints.selected(mActivity, mSelectionManager);
+    }
+
+    @Override
     protected CharSequence[] getPadHints() {
         return PadHints.grid(mActivity, mSelectionManager.inSelectionMode());
     }

@@ -5,6 +5,8 @@ package com.android.gallery3d.app;
 import android.content.Context;
 import android.view.KeyEvent;
 
+import com.android.gallery3d.ui.SelectionManager;
+
 import org.codeaurora.gallery.R;
 
 import java.util.ArrayList;
@@ -38,6 +40,14 @@ final class PadHints {
             if (tabs) add(h, "L1 R1", c.getString(R.string.pad_hint_tabs));
         }
         return h.toArray(new CharSequence[0]);
+    }
+
+    /** "3 selected" while selecting, else null. */
+    static CharSequence selected(AbstractGalleryActivity activity, SelectionManager selection) {
+        if (!selection.inSelectionMode()) return null;
+        final int count = selection.getSelectedCount();
+        return String.format(activity.getResources().getQuantityString(
+                R.plurals.number_of_items_selected, count), count);
     }
 
     static void add(ArrayList<CharSequence> hints, CharSequence key, CharSequence label) {

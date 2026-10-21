@@ -36,6 +36,7 @@ import androidx.print.PrintHelper;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toolbar;
 
@@ -412,6 +413,11 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
         return false;
     }
 
+    /** The hint bar's text on the left when the page has none: where the user is. */
+    protected CharSequence getPadLeading() {
+        return mToolbar != null ? mToolbar.getTitle() : null;
+    }
+
     /** The hints for the page on top, after it changed. */
     public void updatePadHints() {
         if (mHintBar == null) return;
@@ -419,6 +425,10 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
         final CharSequence[] hints = states.getStateCount() > 0
                 ? states.getTopState().getPadHints() : null;
         mHintBar.set(hints != null ? hints : new CharSequence[0]);
+        CharSequence leading = states.getStateCount() > 0
+                ? states.getTopState().getPadLeading() : null;
+        if (leading == null) leading = getPadLeading();
+        mHintBar.setLeading(leading);
     }
 
     @Override
@@ -495,5 +505,13 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
 
    public void setToolbar(Toolbar toolbar) {
        mToolbar = toolbar ;
+       // andr36oid: no header on the console, its actions are in the Y menu. The toolbar
+       // stays for the menu and the selection mode; zero height lets the grids use the room
+       if (toolbar != null) {
+           final View bar = toolbar.getParent() instanceof View
+                   ? (View) toolbar.getParent() : toolbar;
+           bar.setVisibility(View.GONE);
+           toolbar.getLayoutParams().height = 0;
+       }
    }
 }

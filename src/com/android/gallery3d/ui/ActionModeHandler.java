@@ -145,6 +145,13 @@ public class ActionModeHandler implements Callback, PopupList.OnPopupItemClickLi
         View customView = LayoutInflater.from(a).inflate(
                 R.layout.action_mode, null);
         mActionMode.setCustomView(customView);
+        // andr36oid: no selection header on the console, the hint bar shows the count and
+        // Y the actions
+        if (customView.getParent() instanceof View) {
+            final View bar = (View) customView.getParent();
+            bar.setVisibility(View.GONE);
+            bar.post(() -> bar.setVisibility(View.GONE));
+        }
         mSelectionMenu = new SelectionMenu(a,
                 (Button) customView.findViewById(R.id.selection_menu), this);
         updateSelectionMenu();
@@ -233,6 +240,7 @@ public class ActionModeHandler implements Callback, PopupList.OnPopupItemClickLi
         String format = mActivity.getResources().getQuantityString(
                 R.plurals.number_of_items_selected, count);
         setTitle(String.format(format, count));
+        mActivity.updatePadHints();
         if (count == 0) {
             mShareMaxDialog = false;
         }
