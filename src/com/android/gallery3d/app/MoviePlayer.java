@@ -761,12 +761,14 @@ public class MoviePlayer implements
         mShowing = true;
         setProgress();
         showSystemUi(true);
+        if (mActivityContext != null) mActivityContext.setHintsShown(true);
     }
 
     @Override
     public void onHidden() {
         mShowing = false;
         showSystemUi(false);
+        if (mActivityContext != null) mActivityContext.setHintsShown(false);
     }
 
     @Override

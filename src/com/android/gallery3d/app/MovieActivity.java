@@ -106,6 +106,15 @@ public class MovieActivity extends AbstractPermissionActivity {
         }
     }
 
+    private HintBar mHints;
+
+    /** andr36oid: the hints fade out and back in with the player's controls. */
+    void setHintsShown(boolean shown) {
+        if (mHints == null) return;
+        mHints.animate().cancel();
+        mHints.animate().alpha(shown ? 1f : 0f).setDuration(shown ? 150 : 300).start();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +124,7 @@ public class MovieActivity extends AbstractPermissionActivity {
 
         setContentView(R.layout.movie_view);
         // andr36oid: the console's controller, see MoviePlayer.onKeyDown
-        HintBar.attach(this, "A", getString(R.string.pad_hint_play_pause),
+        mHints = HintBar.attach(this, "A", getString(R.string.pad_hint_play_pause),
                 getString(R.string.pad_key_left_right), getString(R.string.pad_hint_seek),
                 "B", getString(R.string.pad_hint_back));
         View rootView = findViewById(R.id.movie_view_root);
