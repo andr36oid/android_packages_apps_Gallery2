@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ import com.android.gallery3d.ui.DetailsHelper;
 import com.android.gallery3d.ui.DetailsHelper.CloseListener;
 import com.android.gallery3d.ui.GLRoot;
 import com.android.gallery3d.ui.GLView;
+import com.android.gallery3d.ui.PadFocus;
 import com.android.gallery3d.ui.PhotoFallbackEffect;
 import com.android.gallery3d.ui.RelativePosition;
 import com.android.gallery3d.ui.SelectionManager;
@@ -773,6 +775,8 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
 
                 // Let picture of mFocusIndex visible
                 mSlotView.makeSlotVisible(mFocusIndex);
+                // andr36oid: the controller's selection follows the photo that was shown
+                if (mSlotView.getFocusIndex() >= 0) mSlotView.setFocusIndex(mFocusIndex);
 
                 if (View.LAYOUT_DIRECTION_RTL == TextUtils
                         .getLayoutDirectionFromLocale(Locale.getDefault())) {
@@ -990,5 +994,34 @@ public class AlbumPage extends ActivityState implements GalleryActionBar.Cluster
         if (tvEmptyAlbum != null) {
             tvEmptyAlbum.setVisibility(View.GONE);
         }
+    }
+
+    // andr36oid: the console's controller. The D-pad moves the selection in the grid, A
+    // opens (or marks, while selecting), X starts selecting, Y is the menu (see
+    // AbstractGalleryActivity), B is back.
+
+    @Override
+    protected boolean onPadKey(int keyCode, KeyEvent event) {
+        if (!mIsActive) return false;
+        if (PadFocus.isMove(keyCode)) return mSlotView.moveFocus(keyCode);
+        if (event.getRepeatCount() != 0) return false;
+        if (PadHints.isA(keyCode)) {
+            return mSlotView.clickFocused() || mSlotView.moveFocus(keyCode);
+        }
+        if (keyCode == KeyEvent.KEYCODE_BUTTON_X && !mSelectionManager.inSelectionMode()) {
+            return mSlotView.longClickFocused() || mSlotView.moveFocus(keyCode);
+        }
+        return false;
+    }
+
+    @Override
+    protected CharSequence[] getPadHints() {
+        return PadHints.grid(mActivity, mSelectionManager.inSelectionMode());
+    }
+
+    @Override
+    protected Menu getPadSelectionMenu() {
+        return mSelectionManager.inSelectionMode() && mActionModeHandler != null
+                ? mActionModeHandler.getMenu() : null;
     }
 }

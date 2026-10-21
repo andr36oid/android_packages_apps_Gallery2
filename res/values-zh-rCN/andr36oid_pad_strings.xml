@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">打开</string>
+    <string name="pad_hint_back">返回</string>
+    <string name="pad_hint_close">关闭</string>
+    <string name="pad_hint_select">选择</string>
+    <string name="pad_hint_menu">菜单</string>
+    <string name="pad_hint_tabs">标签页</string>
+    <string name="pad_hint_mark">勾选</string>
+    <string name="pad_hint_done">完成</string>
+    <string name="pad_hint_actions">操作</string>
+    <string name="pad_hint_play">播放</string>
+    <string name="pad_hint_zoom">缩放</string>
+    <string name="pad_hint_browse">浏览</string>
+    <string name="pad_hint_move">移动</string>
+    <string name="pad_key_dpad">方向键</string>
+</resources>

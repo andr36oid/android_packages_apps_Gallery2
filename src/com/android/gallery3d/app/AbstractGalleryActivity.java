@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import androidx.print.PrintHelper;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -49,7 +50,10 @@ import com.android.gallery3d.util.PanoramaViewHelper;
 import com.android.gallery3d.util.ThreadPool;
 import com.android.photos.data.GalleryBitmapPool;
 
+import org.andr36oid.hints.HintBar;
+
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
         implements GalleryContext {
@@ -143,6 +147,9 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
     public void setContentView(int resId) {
         super.setContentView(resId);
         mGLRootView = (GLRootView) findViewById(R.id.gl_root_view);
+        // andr36oid: the button hints along the bottom, see onPadKey
+        mHintBar = HintBar.attach(this);
+        updatePadHints();
     }
 
     protected void onStorageReady() {
@@ -389,6 +396,102 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
    public Toolbar getToolbar() {
        return mToolbar;
    }
+
+    // andr36oid: the console has no touch screen. The pages get the controller's keys
+    // (onPadKey) and say what the buttons do (getPadHints), shown along the bottom.
+
+    private HintBar mHintBar;
+
+    /** True when L1 and R1 switch between tabs (timeline, albums, videos). */
+    public boolean hasPadTabs() {
+        return false;
+    }
+
+    /** Goes to the next (1) or previous (-1) tab; false if there is none. */
+    protected boolean switchPadTab(int direction) {
+        return false;
+    }
+
+    /** The hints for the page on top, after it changed. */
+    public void updatePadHints() {
+        if (mHintBar == null) return;
+        final StateManager states = getStateManager();
+        final CharSequence[] hints = states.getStateCount() > 0
+                ? states.getTopState().getPadHints() : null;
+        mHintBar.set(hints != null ? hints : new CharSequence[0]);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && getStateManager().getStateCount() > 0) {
+            boolean used;
+            final GLRoot root = getGLRoot();
+            root.lockRenderThread();
+            try {
+                used = getStateManager().getTopState().onPadKey(event.getKeyCode(), event);
+            } finally {
+                root.unlockRenderThread();
+            }
+            if (!used && event.getRepeatCount() == 0) {
+                switch (event.getKeyCode()) {
+                    case KeyEvent.KEYCODE_BUTTON_Y:
+                        used = showPadMenu();
+                        break;
+                    case KeyEvent.KEYCODE_BUTTON_L1:
+                    case KeyEvent.KEYCODE_BUTTON_R1:
+                        used = hasPadTabs() && switchPadTab(
+                                event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_R1 ? 1 : -1);
+                        break;
+                }
+            }
+            if (used) {
+                updatePadHints();
+                return true;
+            }
+        }
+        final boolean result = super.dispatchKeyEvent(event);
+        if (event.getAction() == KeyEvent.ACTION_UP) updatePadHints();
+        return result;
+    }
+
+    /**
+     * The page's menu as a list the D-pad can go through: the selection's actions while
+     * some are selected, else the menu of the bar on top (even while it is hidden).
+     */
+    public boolean showPadMenu() {
+        Menu menu = null;
+        final StateManager states = getStateManager();
+        if (states.getStateCount() > 0) menu = states.getTopState().getPadSelectionMenu();
+        if (menu == null && mToolbar != null) menu = mToolbar.getMenu();
+        return menu != null && showPadMenu(menu, null);
+    }
+
+    private boolean showPadMenu(final Menu menu, CharSequence title) {
+        final ArrayList<MenuItem> items = new ArrayList<>();
+        for (int i = 0; i < menu.size(); i++) {
+            final MenuItem item = menu.getItem(i);
+            if (item.isVisible() && item.isEnabled() && item.getTitle() != null) items.add(item);
+        }
+        if (items.isEmpty()) return false;
+        final CharSequence[] titles = new CharSequence[items.size()];
+        for (int i = 0; i < titles.length; i++) titles[i] = items.get(i).getTitle();
+        final AlertDialog.Builder b = new AlertDialog.Builder(this)
+                .setItems(titles, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final MenuItem item = items.get(which);
+                        if (item.hasSubMenu()) {
+                            showPadMenu(item.getSubMenu(), item.getTitle());
+                        } else {
+                            menu.performIdentifierAction(item.getItemId(), 0);
+                        }
+                        updatePadHints();
+                    }
+                });
+        if (title != null) b.setTitle(title);
+        b.show();
+        return true;
+    }
 
    public void setToolbar(Toolbar toolbar) {
        mToolbar = toolbar ;

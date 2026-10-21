@@ -90,6 +90,26 @@ public class SlotView extends GLView {
 
     // Flag to check whether it is come from Photo Page.
     private boolean isFromPhotoPage = false;
+
+    // andr36oid: the slot the D-pad has selected, INDEX_NONE until a D-pad key is pressed
+    private int mFocusIndex = INDEX_NONE;
+    private final Rect mFocusRect = new Rect();
+    private final PadFocus.Grid mPadGrid = new PadFocus.Grid() {
+        @Override
+        public int slotCount() {
+            return mLayout.mSlotCount;
+        }
+
+        @Override
+        public boolean isTitle(int index) {
+            return false;
+        }
+
+        @Override
+        public Rect slotRect(int index) {
+            return mLayout.getSlotRect(index, new Rect());
+        }
+    };
     private Activity mActivity;
 
     public SlotView(AbstractGalleryActivity activity, Spec spec) {
@@ -145,6 +165,48 @@ public class SlotView extends GLView {
      */
     public void setIsFromPhotoPage(boolean flag) {
         isFromPhotoPage = flag;
+    }
+
+    /** andr36oid: the slot the D-pad selected, or INDEX_NONE. */
+    public int getFocusIndex() {
+        return mFocusIndex < mLayout.mSlotCount ? mFocusIndex : INDEX_NONE;
+    }
+
+    /** andr36oid: selects this slot (shown and scrolled into view), INDEX_NONE for none. */
+    public void setFocusIndex(int index) {
+        mFocusIndex = index >= 0 && index < mLayout.mSlotCount ? index : INDEX_NONE;
+        if (mFocusIndex != INDEX_NONE) makeSlotVisible(mFocusIndex);
+        invalidate();
+    }
+
+    /**
+     * andr36oid: moves the selection with a D-pad key. The first key selects the first slot
+     * on screen. False if there are no slots.
+     */
+    public boolean moveFocus(int keyCode) {
+        final int from = getFocusIndex();
+        final int to = from == INDEX_NONE
+                ? PadFocus.first(mPadGrid, mLayout.getVisibleStart())
+                : PadFocus.move(mPadGrid, from, keyCode);
+        if (to < 0) return false;
+        setFocusIndex(to);
+        return true;
+    }
+
+    /** andr36oid: a tap on the selected slot. False if none is selected. */
+    public boolean clickFocused() {
+        final int index = getFocusIndex();
+        if (index == INDEX_NONE || mListener == null) return false;
+        mListener.onSingleTapUp(index);
+        return true;
+    }
+
+    /** andr36oid: a long press on the selected slot. False if none is selected. */
+    public boolean longClickFocused() {
+        final int index = getFocusIndex();
+        if (index == INDEX_NONE || mListener == null) return false;
+        mListener.onLongTap(index);
+        return true;
     }
 
     public void setScrollPosition(int position) {
@@ -275,6 +337,12 @@ public class SlotView extends GLView {
                 if ((r & RENDER_MORE_PASS) != 0) requestedSlot[newCount++] = i;
             }
             requestCount = newCount;
+        }
+
+        final int focus = getFocusIndex();
+        if (focus != INDEX_NONE && focus >= mLayout.mVisibleStart
+                && focus < mLayout.mVisibleEnd) {
+            PadFocus.draw(canvas, mLayout.getSlotRect(focus, mFocusRect));
         }
 
         canvas.translate(mScrollX, mScrollY);

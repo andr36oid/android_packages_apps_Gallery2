@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">Aç</string>
+    <string name="pad_hint_back">Geri</string>
+    <string name="pad_hint_close">Kapat</string>
+    <string name="pad_hint_select">Seç</string>
+    <string name="pad_hint_menu">Menü</string>
+    <string name="pad_hint_tabs">Sekmeler</string>
+    <string name="pad_hint_mark">İşaretle</string>
+    <string name="pad_hint_done">Bitti</string>
+    <string name="pad_hint_actions">İşlemler</string>
+    <string name="pad_hint_play">Oynat</string>
+    <string name="pad_hint_zoom">Yakınlaştır</string>
+    <string name="pad_hint_browse">Gezin</string>
+    <string name="pad_hint_move">Kaydır</string>
+    <string name="pad_key_dpad">Yön tuşu</string>
+</resources>

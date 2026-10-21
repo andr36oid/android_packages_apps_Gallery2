@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">Abrir</string>
+    <string name="pad_hint_back">Voltar</string>
+    <string name="pad_hint_close">Fechar</string>
+    <string name="pad_hint_select">Selecionar</string>
+    <string name="pad_hint_menu">Menu</string>
+    <string name="pad_hint_tabs">Abas</string>
+    <string name="pad_hint_mark">Marcar</string>
+    <string name="pad_hint_done">Concluído</string>
+    <string name="pad_hint_actions">Ações</string>
+    <string name="pad_hint_play">Reproduzir</string>
+    <string name="pad_hint_zoom">Zoom</string>
+    <string name="pad_hint_browse">Navegar</string>
+    <string name="pad_hint_move">Mover</string>
+    <string name="pad_key_dpad">Direcional</string>
+</resources>

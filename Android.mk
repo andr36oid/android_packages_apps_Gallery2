@@ -7,6 +7,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_JAVA_LIBRARIES := telephony-common
 
 LOCAL_STATIC_ANDROID_LIBRARIES := \
+    andr36oid-hint-bar \
     com.google.android.material_material \
     androidx.annotation_annotation \
     androidx.fragment_fragment \

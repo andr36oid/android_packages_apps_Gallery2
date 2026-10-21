@@ -134,6 +134,80 @@ public class TimeLineSlotView extends GLView {
         isFromPhotoPage = flag;
     }
 
+    // andr36oid: the slot the D-pad has selected, INDEX_NONE until a D-pad key is pressed.
+    // Titles (dates) can't be selected.
+    private int mFocusIndex = INDEX_NONE;
+    private final PadFocus.Grid mPadGrid = new PadFocus.Grid() {
+        @Override
+        public int slotCount() {
+            return mLayout.getSlotSize();
+        }
+
+        @Override
+        public boolean isTitle(int index) {
+            return mLayout.isTitleIndex(index);
+        }
+
+        @Override
+        public Rect slotRect(int index) {
+            return mLayout.getAnySlotRect(index);
+        }
+    };
+
+    /** andr36oid: the slot the D-pad selected, or INDEX_NONE. */
+    public int getFocusIndex() {
+        return mFocusIndex < mLayout.getSlotSize() ? mFocusIndex : INDEX_NONE;
+    }
+
+    /** andr36oid: selects this slot and scrolls it into view, INDEX_NONE for none. */
+    public void setFocusIndex(int index) {
+        mFocusIndex = index >= 0 && index < mLayout.getSlotSize() ? index : INDEX_NONE;
+        final Rect rect = mFocusIndex == INDEX_NONE ? null : mLayout.getAnySlotRect(mFocusIndex);
+        if (rect != null) {
+            int position = mScrollY;
+            if (rect.top < mScrollY) {
+                // show the date above the first row of a day too
+                final Rect title = mLayout.getAnySlotRect(mFocusIndex - 1);
+                position = title != null && mLayout.isTitleIndex(mFocusIndex - 1)
+                        ? title.top : rect.top;
+            } else if (rect.bottom > mScrollY + getHeight()) {
+                position = rect.bottom - getHeight();
+            }
+            setScrollPosition(position);
+        }
+        invalidate();
+    }
+
+    /**
+     * andr36oid: moves the selection with a D-pad key. The first key selects the first slot
+     * on screen. False if there are no slots.
+     */
+    public boolean moveFocus(int keyCode) {
+        final int from = getFocusIndex();
+        final int to = from == INDEX_NONE
+                ? PadFocus.first(mPadGrid, mLayout.getVisibleStart())
+                : PadFocus.move(mPadGrid, from, keyCode);
+        if (to < 0) return false;
+        setFocusIndex(to);
+        return true;
+    }
+
+    /** andr36oid: a tap on the selected slot. False if none is selected. */
+    public boolean clickFocused() {
+        final int index = getFocusIndex();
+        if (index == INDEX_NONE || mListener == null) return false;
+        mListener.onSingleTapUp(index, false);
+        return true;
+    }
+
+    /** andr36oid: a long press on the selected slot. False if none is selected. */
+    public boolean longClickFocused() {
+        final int index = getFocusIndex();
+        if (index == INDEX_NONE || mListener == null) return false;
+        mListener.onLongTap(index, false);
+        return true;
+    }
+
     public void setScrollPosition(int position) {
         position = Utils.clamp(position, 0, mLayout.getScrollLimit());
         mScroller.setPosition(position);
@@ -248,6 +322,12 @@ public class TimeLineSlotView extends GLView {
                 if ((r & RENDER_MORE_PASS) != 0) requestedSlot[newCount++] = i;
             }
             requestCount = newCount;
+        }
+
+        final int focus = getFocusIndex();
+        if (focus != INDEX_NONE) {
+            final Rect rect = mLayout.getAnySlotRect(focus);
+            if (rect != null) PadFocus.draw(canvas, rect);
         }
 
         canvas.translate(mScrollX, mScrollY);
@@ -491,6 +571,38 @@ public class TimeLineSlotView extends GLView {
 
         public int getSlotSize() {
             return mSlotSize;
+        }
+
+        /** andr36oid: true for a day's title. */
+        public boolean isTitleIndex(int index) {
+            if (mSlotCount == null || index < 0) return false;
+            int base = 0;
+            for (int count : mSlotCount) {
+                if (index == base) return true;
+                base += 1 + count;
+                if (index < base) return false;
+            }
+            return false;
+        }
+
+        /** andr36oid: getSlotRect for any slot, on screen or not; null if there is none. */
+        public Rect getAnySlotRect(int index) {
+            if (mSlotCount == null || index < 0) return null;
+            int base = 0, top = 0;
+            for (int count : mSlotCount) {
+                if (index == base) {
+                    return getSlotRect(getSlot(true, index, index, top));
+                }
+                top += mSpec.titleHeight;
+                ++base;
+                if (index >= base && index < base + count) {
+                    return getSlotRect(getSlot(false, index, base, top));
+                }
+                int rows = (count + mUnitCount - 1) / mUnitCount;
+                top += mSlotHeight * rows + mSlotGap * (rows > 0 ? rows - 1 : 0);
+                base += count;
+            }
+            return null;
         }
 
         public Rect getSlotRect(int index) {

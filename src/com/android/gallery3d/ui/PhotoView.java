@@ -23,6 +23,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View.MeasureSpec;
 import android.view.animation.AccelerateInterpolator;
@@ -1644,6 +1645,60 @@ public class PhotoView extends GLView {
         }
 
         return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  andr36oid: the console's controller
+    ////////////////////////////////////////////////////////////////////////////
+
+    /** True while the picture is zoomed in: the D-pad moves it instead of browsing. */
+    public boolean isZoomedIn() {
+        return !mPositionController.isAtMinimalScale();
+    }
+
+    /**
+     * Left and right go to the previous and next picture, or move a zoomed-in one, as do
+     * up and down; X zooms in and back out, L1 and R1 zoom out and in. True if used.
+     */
+    public boolean onPadKey(int keyCode, int repeatCount) {
+        if (mPictures.get(0).isCamera()) return false;
+        final PositionController c = mPositionController;
+        final boolean zoomed = isZoomedIn();
+        final int step = Math.max(getWidth(), getHeight()) / 6;
+        final float scale = c.getImageScale();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+            case KeyEvent.KEYCODE_DPAD_RIGHT: {
+                final boolean left = keyCode == KeyEvent.KEYCODE_DPAD_LEFT;
+                if (zoomed) {
+                    c.scrollPage(left ? step : -step, 0);
+                    snapback();
+                } else if (!c.isScrolling()) {
+                    if (left) slideToPrevPicture();
+                    else slideToNextPicture();
+                }
+                return true;
+            }
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                if (!zoomed) return false;
+                c.scrollPage(0, keyCode == KeyEvent.KEYCODE_DPAD_UP ? step : -step);
+                snapback();
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_X:
+                if (repeatCount != 0) return true;
+                if (zoomed) c.resetToFullView();
+                else c.zoomIn(getWidth() / 2f, getHeight() / 2f, scale * 2f);
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_R1:
+                c.zoomIn(getWidth() / 2f, getHeight() / 2f, scale * 1.5f);
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_L1:
+                if (zoomed) c.zoomIn(getWidth() / 2f, getHeight() / 2f, scale / 1.5f);
+                return true;
+            default:
+                return false;
+        }
     }
 
     private boolean slideToNextPicture() {

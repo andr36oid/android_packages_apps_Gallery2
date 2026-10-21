@@ -26,6 +26,7 @@ import android.content.res.Configuration;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -92,6 +93,27 @@ abstract public class ActivityState {
 
     public Bundle getData() {
         return mData;
+    }
+
+    /**
+     * andr36oid: a key from the console's controller, before the views get it, with the GL
+     * root locked. True if it was used. Only key downs come here.
+     */
+    protected boolean onPadKey(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    /**
+     * andr36oid: the button hints shown along the bottom for this page: pairs of button and
+     * what it does. Null for none.
+     */
+    protected CharSequence[] getPadHints() {
+        return null;
+    }
+
+    /** andr36oid: the selection's actions while some are selected, for Y; null if none. */
+    protected Menu getPadSelectionMenu() {
+        return null;
     }
 
     protected void onBackPressed() {
@@ -235,6 +257,7 @@ abstract public class ActivityState {
         }
 
         onResume();
+        mActivity.updatePadHints();
 
         // the transition store should be cleared after resume;
         mActivity.getTransitionStore().clear();

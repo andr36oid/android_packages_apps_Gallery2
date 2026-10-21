@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- andr36oid: button hints along the bottom, for the console's controller (no touch
+         screen). Each is what one button does right now; keep them to a word or two. -->
+    <!-- A on an album or photo: open it -->
+    <string name="pad_hint_open">Open</string>
+    <!-- B: back to the page before -->
+    <string name="pad_hint_back">Back</string>
+    <!-- B on the first page: leave the gallery -->
+    <string name="pad_hint_close">Close</string>
+    <!-- X: start choosing several albums or photos (to share, delete, ...) -->
+    <string name="pad_hint_select">Select</string>
+    <!-- Y: the menu of the page -->
+    <string name="pad_hint_menu">Menu</string>
+    <!-- L1 and R1: go to the next or previous tab (timeline, albums, videos) -->
+    <string name="pad_hint_tabs">Tabs</string>
+    <!-- A while choosing several items: tick or untick the selected one -->
+    <string name="pad_hint_mark">Tick</string>
+    <!-- B while choosing several items: stop choosing -->
+    <string name="pad_hint_done">Done</string>
+    <!-- Y while choosing several items: what to do with them (share, delete, ...) -->
+    <string name="pad_hint_actions">Actions</string>
+    <!-- A on a video: play it -->
+    <string name="pad_hint_play">Play</string>
+    <!-- X on a photo: zoom in, or back out -->
+    <string name="pad_hint_zoom">Zoom</string>
+    <!-- Left and right on a photo: the previous or next one -->
+    <string name="pad_hint_browse">Browse</string>
+    <!-- The D-pad on a zoomed-in photo: move it around -->
+    <string name="pad_hint_move">Move</string>
+    <!-- The name of the controller's direction pad, shown as a button in the hints -->
+    <string name="pad_key_dpad">D-pad</string>
+</resources>

@@ -150,6 +150,11 @@ public class ActionModeHandler implements Callback, PopupList.OnPopupItemClickLi
         updateSelectionMenu();
     }
 
+    /** andr36oid: the actions for the selection, for the controller's menu button. */
+    public Menu getMenu() {
+        return mActionMode != null ? mMenu : null;
+    }
+
     public void finishActionMode() {
         mActionMode.finish();
     }

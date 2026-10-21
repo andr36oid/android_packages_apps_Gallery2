@@ -202,6 +202,29 @@ public final class GalleryActivity extends AbstractGalleryActivity implements On
         });
     }
 
+    // andr36oid: L1 and R1 go through the tabs at the bottom
+    private static final int[] PAD_TABS = {
+            R.id.action_timeline, R.id.action_album, R.id.action_videos };
+
+    @Override
+    public boolean hasPadTabs() {
+        return mBottomNavigation != null && mBottomNavigation.getVisibility() == View.VISIBLE
+                && getStateManager().getStateCount() == 1;
+    }
+
+    @Override
+    protected boolean switchPadTab(int direction) {
+        final int selected = mBottomNavigation.getSelectedItemId();
+        int at = 0;
+        for (int i = 0; i < PAD_TABS.length; i++) {
+            if (PAD_TABS[i] == selected) at = i;
+        }
+        final int next = at + direction;
+        if (next < 0 || next >= PAD_TABS.length) return false;
+        mBottomNavigation.setSelectedItemId(PAD_TABS[next]);
+        return true;
+    }
+
     public void toggleNavBar(boolean show) {
         if (show) {
             mBottomNavigation.setVisibility(View.VISIBLE);

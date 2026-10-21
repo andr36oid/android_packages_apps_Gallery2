@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">Buka</string>
+    <string name="pad_hint_back">Kembali</string>
+    <string name="pad_hint_close">Tutup</string>
+    <string name="pad_hint_select">Pilih</string>
+    <string name="pad_hint_menu">Menu</string>
+    <string name="pad_hint_tabs">Tab</string>
+    <string name="pad_hint_mark">Tandai</string>
+    <string name="pad_hint_done">Selesai</string>
+    <string name="pad_hint_actions">Tindakan</string>
+    <string name="pad_hint_play">Putar</string>
+    <string name="pad_hint_zoom">Zoom</string>
+    <string name="pad_hint_browse">Jelajahi</string>
+    <string name="pad_hint_move">Geser</string>
+    <string name="pad_key_dpad">D-pad</string>
+</resources>

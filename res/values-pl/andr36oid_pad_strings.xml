@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">Otwórz</string>
+    <string name="pad_hint_back">Wstecz</string>
+    <string name="pad_hint_close">Zamknij</string>
+    <string name="pad_hint_select">Zaznacz</string>
+    <string name="pad_hint_menu">Menu</string>
+    <string name="pad_hint_tabs">Karty</string>
+    <string name="pad_hint_mark">Zaznacz</string>
+    <string name="pad_hint_done">Gotowe</string>
+    <string name="pad_hint_actions">Akcje</string>
+    <string name="pad_hint_play">Odtwórz</string>
+    <string name="pad_hint_zoom">Powiększ</string>
+    <string name="pad_hint_browse">Przeglądaj</string>
+    <string name="pad_hint_move">Przesuń</string>
+    <string name="pad_key_dpad">Krzyżak</string>
+</resources>

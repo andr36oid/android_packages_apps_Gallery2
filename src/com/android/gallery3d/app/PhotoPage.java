@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +82,7 @@ import com.android.gallery3d.util.GalleryUtils;
 import com.android.gallery3d.util.UsageStatistics;
 import com.android.gallery3d.util.ViewGifImage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -1807,5 +1809,41 @@ public abstract class PhotoPage extends ActivityState implements
     private static void viewAnimateGif(Activity activity, Uri uri) {
         Intent intent = new Intent(ViewGifImage.VIEW_GIF_ACTION, uri);
         activity.startActivity(intent);
+    }
+
+    // andr36oid: the console's controller. A plays a video (or shows the bars), the D-pad
+    // and X, L1, R1 go to the photo view (browse, zoom), Y is the menu (see
+    // AbstractGalleryActivity), B is back.
+
+    @Override
+    protected boolean onPadKey(int keyCode, KeyEvent event) {
+        if (mPhotoView == null) return false;
+        if (PadHints.isA(keyCode)) {
+            if (event.getRepeatCount() == 0) {
+                onSingleTapUp(mPhotoView.getWidth() / 2, mPhotoView.getHeight() / 2);
+            }
+            return true;
+        }
+        return mPhotoView.onPadKey(keyCode, event.getRepeatCount());
+    }
+
+    @Override
+    protected CharSequence[] getPadHints() {
+        final Context c = mActivity;
+        final ArrayList<CharSequence> h = new ArrayList<>();
+        final MediaItem item = mModel != null ? mModel.getMediaItem(0) : null;
+        if (item != null && item.getMediaType() == MediaObject.MEDIA_TYPE_VIDEO) {
+            PadHints.add(h, "A", c.getString(R.string.pad_hint_play));
+        }
+        PadHints.add(h, "B", c.getString(R.string.pad_hint_back));
+        PadHints.add(h, "X", c.getString(R.string.pad_hint_zoom));
+        PadHints.add(h, "Y", c.getString(R.string.pad_hint_menu));
+        if (mPhotoView != null && mPhotoView.isZoomedIn()) {
+            PadHints.add(h, c.getString(R.string.pad_key_dpad),
+                    c.getString(R.string.pad_hint_move));
+        } else {
+            PadHints.add(h, "\u25c0 \u25b6", c.getString(R.string.pad_hint_browse));
+        }
+        return h.toArray(new CharSequence[0]);
     }
 }

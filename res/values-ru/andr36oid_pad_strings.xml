@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pad_hint_open">Открыть</string>
+    <string name="pad_hint_back">Назад</string>
+    <string name="pad_hint_close">Закрыть</string>
+    <string name="pad_hint_select">Выбрать</string>
+    <string name="pad_hint_menu">Меню</string>
+    <string name="pad_hint_tabs">Вкладки</string>
+    <string name="pad_hint_mark">Отметить</string>
+    <string name="pad_hint_done">Готово</string>
+    <string name="pad_hint_actions">Действия</string>
+    <string name="pad_hint_play">Воспроизвести</string>
+    <string name="pad_hint_zoom">Масштаб</string>
+    <string name="pad_hint_browse">Листать</string>
+    <string name="pad_hint_move">Двигать</string>
+    <string name="pad_key_dpad">Крестовина</string>
+</resources>
