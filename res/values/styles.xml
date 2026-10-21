@@ -47,7 +47,10 @@
     <style name="FilterShowToolbar" parent="@android:style/Widget.Toolbar">
         <item name="android:contentInsetStart">0dp</item>
     </style>
-    <style name="Theme.MovieActivity" parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+    <!-- andr36oid: true black behind the video -->
+    <style name="Theme.MovieActivity" parent="android:Theme.DeviceDefault">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:colorBackground">@android:color/black</item>
     </style>
     <style name="Theme.Crop" parent="Theme.GalleryBase">
         <item name="android:displayOptions"></item>
@@ -317,11 +320,16 @@
         <item name="android:background">@drawable/bg_pressed</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+    <!-- andr36oid: always dark (not DayNight) on true black; dialogs and the Y menu are
+         black with the system accent -->
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:statusBarColor">#212121</item>
+        <item name="android:colorBackground">@android:color/black</item>
+        <item name="android:colorBackgroundFloating">@android:color/black</item>
+        <item name="android:alertDialogTheme">@style/Theme.Andr36oid.Dialog</item>
+        <item name="android:statusBarColor">@android:color/black</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowActionModeOverlay">true</item>
@@ -331,6 +339,11 @@
         <item name="android:homeAsUpIndicator">@drawable/back</item>
         <item name="android:actionModeCloseDrawable">@drawable/multiselected_back</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Andr36oid.Dialog" parent="android:Theme.DeviceDefault.Dialog.Alert">
+        <item name="android:colorBackground">@android:color/black</item>
+        <item name="android:colorBackgroundFloating">@android:color/black</item>
     </style>
 
     <style name="QueryTheme" parent="android:Theme.Material">

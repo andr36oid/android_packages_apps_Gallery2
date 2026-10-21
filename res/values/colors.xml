@@ -15,25 +15,29 @@
 -->
 <resources>
 
-    <color name="default_background">@color/white</color>
+    <!-- andr36oid: true black like the rest of the system, light text, dark grey
+         placeholders, in day and night mode alike -->
+    <color name="default_background">#000000</color>
+    <color name="andr36oid_placeholder">#1A1A1A</color>
+    <color name="primary_text">#DEFFFFFF</color>
 
     <!-- configuration for album set page -->
-    <color name="albumset_background">@color/white</color>
-    <color name="albumset_placeholder">@color/black_transparent_3</color>
-    <color name="albumset_label_background">@color/black_transparent_4</color>
+    <color name="albumset_background">@color/default_background</color>
+    <color name="albumset_placeholder">@color/andr36oid_placeholder</color>
+    <color name="albumset_label_background">#CC1A1A1A</color>
     <color name="albumset_label_title">@color/white</color>
     <color name="albumset_label_count">@color/white</color>
-    <color name="albumlist_label_title">@color/black_transparent_4</color>
+    <color name="albumlist_label_title">@color/primary_text</color>
 
     <color name="darker_transparent">@color/black_transparent_5</color>
 
     <!-- configuration for album page -->
-    <color name="album_background">@color/white</color>
-    <color name="album_placeholder">@color/white</color>
+    <color name="album_background">@color/default_background</color>
+    <color name="album_placeholder">@color/andr36oid_placeholder</color>
 
     <!-- configuration for photo page -->
     <color name="photo_background">@color/black</color>
-    <color name="photo_placeholder">@color/light_black</color>
+    <color name="photo_placeholder">@color/andr36oid_placeholder</color>
     <color name="photo_page_action_bar">#8A000000</color>
     <color name="photo_page_bottom_panel">#8A000000</color>
 
@@ -41,9 +45,9 @@
     <color name="cache_background">@color/primary</color>
     <color name="cache_placeholder">@color/light_black</color>
 
-    <color name="bitmap_screennail_placeholder">@color/light_black</color>
+    <color name="bitmap_screennail_placeholder">@color/andr36oid_placeholder</color>
 
-    <color name="slideshow_background">@color/light_black</color>
+    <color name="slideshow_background">@color/default_background</color>
 
     <color name="button_dark_transparent_background">#6000</color>
 
@@ -62,7 +66,7 @@
     <color name="time_lapse_arc">#FFC5C5C5</color>
     <color name="indicator_background">#40000000</color>
     <color name="popup_title_color">@color/accent</color>
-    <color name="popup_background">#ff282828</color>
+    <color name="popup_background">#ff000000</color>
     <color name="pano_progress_empty">#FF2E2E2E</color>
     <color name="pano_progress_done">#FF33525E</color>
     <color name="pano_progress_indication">#FF0099CC</color>
@@ -81,20 +85,20 @@
     <color name="grey">#e7e7e7</color>
     <color name="disabled_knob">#575757</color>
     <color name="toolbar_theme">@color/primary</color>
-    <color name="multiselect_background">@color/white</color>
+    <color name="multiselect_background">@color/default_background</color>
     <color name="edit_background">@color/black</color>
     <color name="edit_actionbar_background">@color/black</color>
     <color name="dialog_button_color">#009688</color>
-    <color name="timeline_title_text_color">@color/black_transparent_4</color>
-    <color name="timeline_title_number_text_color">@color/black_transparent_3</color>
-    <color name="timeline_title_background_color">@color/white</color>
+    <color name="timeline_title_text_color">@color/primary_text</color>
+    <color name="timeline_title_number_text_color">#99FFFFFF</color>
+    <color name="timeline_title_background_color">@color/default_background</color>
 
     <color name="navigation_accent_disabled">#747474</color>
     <color name="navigation_accent_enabled">@color/white</color>
 
-    <color name="details_text_color">@color/black_transparent_4</color>
-    <color name="empty_text">@color/black_transparent_4</color>
+    <color name="details_text_color">@color/primary_text</color>
+    <color name="empty_text">@color/primary_text</color>
 
-    <color name="multiselect_action_text_color">@color/black_transparent_4</color>
-    <color name="multiselect_icon_color">@color/black</color>
+    <color name="multiselect_action_text_color">@color/primary_text</color>
+    <color name="multiselect_icon_color">@color/white</color>
 </resources>

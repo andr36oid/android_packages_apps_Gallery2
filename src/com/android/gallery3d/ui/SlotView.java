@@ -93,6 +93,8 @@ public class SlotView extends GLView {
 
     // andr36oid: the slot the D-pad has selected, INDEX_NONE until a D-pad key is pressed
     private int mFocusIndex = INDEX_NONE;
+    // andr36oid: the system accent colour, for the selection frame
+    private final int mFocusColor;
     private final Rect mFocusRect = new Rect();
     private final PadFocus.Grid mPadGrid = new PadFocus.Grid() {
         @Override
@@ -113,6 +115,7 @@ public class SlotView extends GLView {
     private Activity mActivity;
 
     public SlotView(AbstractGalleryActivity activity, Spec spec) {
+        mFocusColor = PadFocus.accentColor(activity);
         mGestureDetector = new GestureDetector(activity, new MyGestureListener());
         mScroller = new ScrollerHelper(activity);
         mHandler = new SynchronizedHandler(activity.getGLRoot());
@@ -342,7 +345,7 @@ public class SlotView extends GLView {
         final int focus = getFocusIndex();
         if (focus != INDEX_NONE && focus >= mLayout.mVisibleStart
                 && focus < mLayout.mVisibleEnd) {
-            PadFocus.draw(canvas, mLayout.getSlotRect(focus, mFocusRect));
+            PadFocus.draw(canvas, mLayout.getSlotRect(focus, mFocusRect), mFocusColor);
         }
 
         canvas.translate(mScrollX, mScrollY);

@@ -14,21 +14,5 @@
      limitations under the License.
 -->
 <resources>
-    <color name="default_background">#212121</color>
-    <color name="primary_text">#DEFFFFFF</color>
-
-    <color name="album_background">@color/default_background</color>
-    <color name="albumlist_label_title">@color/primary_text</color>
-    <color name="albumset_background">@color/default_background</color>
-
-    <color name="details_text_color">@color/primary_text</color>
-    <color name="empty_text">@color/primary_text</color>
-
-    <color name="multiselect_action_text_color">@color/primary_text</color>
-    <color name="multiselect_background">@color/primary</color>
-    <color name="multiselect_icon_color">@color/white</color>
-
-    <color name="timeline_title_background_color">@color/default_background</color>
-    <color name="timeline_title_number_text_color">#99FFFFFF</color>
-    <color name="timeline_title_text_color">@color/primary_text</color>
+    <!-- andr36oid: the day colours are the dark ones now, see values/colors.xml -->
 </resources>

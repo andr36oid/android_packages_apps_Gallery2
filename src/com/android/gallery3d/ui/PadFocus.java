@@ -2,7 +2,10 @@
 
 package com.android.gallery3d.ui;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 
 import com.android.gallery3d.glrenderer.GLCanvas;
@@ -24,7 +27,6 @@ public final class PadFocus {
         Rect slotRect(int index);
     }
 
-    private static final int FRAME_COLOR = 0xffff8a00;
     private static final int FILL_COLOR = 0x33ffffff;
     private static final int FRAME_WIDTH = 4;
 
@@ -107,15 +109,33 @@ public final class PadFocus {
         return best;
     }
 
-    /** Draws the focus frame around r, in the canvas's current (scrolled) coordinates. */
-    public static void draw(GLCanvas canvas, Rect r) {
+    /**
+     * The system accent colour, for the focus frame: the device default theme's, which
+     * follows the accent picked in Settings, unlike the gallery's own themes.
+     */
+    public static int accentColor(Context context) {
+        final TypedArray a = new ContextThemeWrapper(context,
+                android.R.style.Theme_DeviceDefault).obtainStyledAttributes(
+                new int[] { android.R.attr.colorAccent });
+        try {
+            return a.getColor(0, 0xffffffff);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    /**
+     * Draws the focus frame in color around r, in the canvas's current (scrolled)
+     * coordinates.
+     */
+    public static void draw(GLCanvas canvas, Rect r, int color) {
         final int w = r.width();
         final int h = r.height();
         final int t = FRAME_WIDTH;
         canvas.fillRect(r.left, r.top, w, h, FILL_COLOR);
-        canvas.fillRect(r.left, r.top, w, t, FRAME_COLOR);
-        canvas.fillRect(r.left, r.bottom - t, w, t, FRAME_COLOR);
-        canvas.fillRect(r.left, r.top + t, t, h - 2 * t, FRAME_COLOR);
-        canvas.fillRect(r.right - t, r.top + t, t, h - 2 * t, FRAME_COLOR);
+        canvas.fillRect(r.left, r.top, w, t, color);
+        canvas.fillRect(r.left, r.bottom - t, w, t, color);
+        canvas.fillRect(r.left, r.top + t, t, h - 2 * t, color);
+        canvas.fillRect(r.right - t, r.top + t, t, h - 2 * t, color);
     }
 }

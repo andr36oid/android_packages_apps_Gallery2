@@ -80,6 +80,7 @@ public class TimeLineSlotView extends GLView {
     private boolean isFromPhotoPage = false;
 
     public TimeLineSlotView(AbstractGalleryActivity activity, Spec spec) {
+        mFocusColor = PadFocus.accentColor(activity);
         mGestureDetector = new GestureDetector(activity, new MyGestureListener());
         mScroller = new ScrollerHelper(activity);
         setSlotSpec(spec);
@@ -137,6 +138,8 @@ public class TimeLineSlotView extends GLView {
     // andr36oid: the slot the D-pad has selected, INDEX_NONE until a D-pad key is pressed.
     // Titles (dates) can't be selected.
     private int mFocusIndex = INDEX_NONE;
+    // andr36oid: the system accent colour, for the selection frame
+    private final int mFocusColor;
     private final PadFocus.Grid mPadGrid = new PadFocus.Grid() {
         @Override
         public int slotCount() {
@@ -327,7 +330,7 @@ public class TimeLineSlotView extends GLView {
         final int focus = getFocusIndex();
         if (focus != INDEX_NONE) {
             final Rect rect = mLayout.getAnySlotRect(focus);
-            if (rect != null) PadFocus.draw(canvas, rect);
+            if (rect != null) PadFocus.draw(canvas, rect, mFocusColor);
         }
 
         canvas.translate(mScrollX, mScrollY);
