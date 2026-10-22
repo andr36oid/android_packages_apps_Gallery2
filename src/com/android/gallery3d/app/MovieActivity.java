@@ -124,7 +124,7 @@ public class MovieActivity extends AbstractPermissionActivity {
 
         setContentView(R.layout.movie_view);
         // andr36oid: the console's controller, see MoviePlayer.onKeyDown
-        mHints = HintBar.attach(this, "A", getString(R.string.pad_hint_play_pause),
+        mHints = HintBar.overlay(this, "A", getString(R.string.pad_hint_play_pause),
                 getString(R.string.pad_key_left_right), getString(R.string.pad_hint_seek),
                 "B", getString(R.string.pad_hint_back));
         View rootView = findViewById(R.id.movie_view_root);

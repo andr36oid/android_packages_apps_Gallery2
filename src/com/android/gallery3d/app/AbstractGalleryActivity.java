@@ -433,7 +433,10 @@ public abstract class AbstractGalleryActivity extends AbstractPermissionActivity
         mHintBar.removeCallbacks(mFadeHints);
         mHintBar.animate().cancel();
         mHintBar.setAlpha(1f);
-        if (states.getStateCount() > 0 && states.getTopState().fadesPadHints()) {
+        final boolean fades = states.getStateCount() > 0 && states.getTopState().fadesPadHints();
+        // the photo gets the whole screen, the hints float over it
+        mHintBar.setReserved(!fades);
+        if (fades) {
             mHintBar.postDelayed(mFadeHints, PAD_HINTS_FADE_MS);
         }
     }
